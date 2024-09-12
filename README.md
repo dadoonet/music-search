@@ -12,8 +12,11 @@ Code from blog [Searching by Music: Leveraging Vector Search for Music Informati
 
 Create a `.env` file which contains the following content and replace the values `CLOUD_ID` and `PASSWORD` with the Elastic Cloud ID and the password. If you want to use another user than `elastic`, also modify `ES_USER` variable.
 
+If you want to run Elasticsearch locally, remove the `ES_CLOUD_ID` variable and set `ES_URL` to `https://localhost:9200`.
+
 ```env
 ES_CLOUD_ID="CLOUD_ID"
+ES_URL="https://localhost:9200"
 ES_USER="elastic"
 ES_PASSWORD="PASSWORD"
 ```
