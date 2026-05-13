@@ -23,7 +23,7 @@ Requires Python 3.14+. To create the `.venv` and install dependencies:
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -qU elasticsearch python-dotenv notebook
+pip install -qU elasticsearch python-dotenv notebook pandas
 # Optional, depending on the provider you want to try:
 pip install -qU google-genai                  # for "gemini"
 pip install -qU panns-inference librosa torch # for "panns"
@@ -56,6 +56,7 @@ The single notebook `elastic_music_search.ipynb` follows this flow:
 4. **Audio encoding** — `audio_to_data_uri(filepath)` reads a `.mp3` file and returns a `data:audio/mpeg;...` URI (used only by the Jina provider).
 5. **Indexing** — walks `dataset/` for `.mp3` files, calls `provider.embed_audio(path)`, stores the resulting vector via `store_in_elasticsearch(...)`.
 6. **Search** — `query_audio_vector(embedding, index_name)` runs a `knn` query on `audio-embedding`. Queries can be audio (`provider.embed_audio`) or text (`provider.embed_text`). Results are displayed via `display_hits_table(...)` with an inline audio player.
+7. **Compare providers** — final section that embeds a reference audio file (`dataset/bella_ciao_david.mp3`) with all 3 providers, measures embedding duration, and displays a side-by-side pandas DataFrame of top-5 hits with the PANNs row highlighted as the baseline. Requires the 3 indices to be already populated (re-run the notebook with each `PROVIDER_NAME` value first).
 
 ## Dataset
 

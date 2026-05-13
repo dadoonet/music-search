@@ -16,6 +16,8 @@ The notebook supports three embedding providers — pick one by editing the `PRO
 
 Each provider writes to its own Elasticsearch index (`music-jina`, `music-panns`, `music-gemini`), so you can switch back and forth without re-indexing.
 
+The notebook ends with a comparison cell that runs the same audio query (`dataset/bella_ciao_david.mp3`) through all 3 providers side by side and displays a table of top-5 hits with embedding durations — useful for evaluating speed and result quality. Populate the 3 indices first by running the notebook once with each `PROVIDER_NAME` value.
+
 ## Installation
 
 Create a `.env` file which contains the following content and replace the values `<ELASTICSEARCH_URL>` and `<ELASTICSEARCH_API_KEY>` with the Elasticsearch URL (Serverless is supported) and the API Key you want to use:
@@ -41,7 +43,7 @@ GOOGLE_API_KEY="<GOOGLE_API_KEY>"
 
 ### Python dependencies
 
-The notebook installs everything it needs via `%pip install`. The base setup only needs `elasticsearch` and `python-dotenv`. Provider-specific extras:
+The notebook installs everything it needs via `%pip install`. The base setup needs `elasticsearch`, `python-dotenv`, and `pandas` (used by the final comparison cell). Provider-specific extras:
 
 - **Jina** — no extra dependency, the inference runs inside Elasticsearch.
 - **Gemini** — `google-genai`.
