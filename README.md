@@ -6,15 +6,16 @@ Code inspired from blog [Searching by Music: Leveraging Vector Search for Music 
 
 ## Available embedding providers
 
-The notebook supports three embedding providers — pick one by editing the `PROVIDER_NAME` variable at the top of the notebook:
+The notebook supports four embedding providers — pick one by editing the `PROVIDER_NAME` variable at the top of the notebook:
 
 | `PROVIDER_NAME` | Backend | Where it runs | Modalities | Extra requirement |
 |---|---|---|---|---|
 | `"jina"` (default) | Elasticsearch managed inference (`.jina-embeddings-v5-omni-small`) | Inside Elasticsearch | audio + text | none |
+| `"jina-nano"` | Elasticsearch managed inference (`.jina-embeddings-v5-omni-nano`) | Inside Elasticsearch | audio + text | none |
 | `"panns"` | PANNs (`panns-inference`, AudioSet checkpoint) | Local PyTorch | audio only | downloads ~300 MB checkpoint on first run |
 | `"gemini"` | Google Gemini multimodal (`gemini-embedding-2`) | Google Cloud API | audio + text | `GOOGLE_API_KEY` in `.env` |
 
-Each provider writes to its own Elasticsearch index (`music-jina`, `music-panns`, `music-gemini`), so you can switch back and forth without re-indexing.
+Each provider writes to its own Elasticsearch index (`music-jina`, `music-jina-nano`, `music-panns`, `music-gemini`), so you can switch back and forth without re-indexing.
 
 The notebook ends with a comparison cell that runs the same audio query (`dataset/bella_ciao_david.mp3`) through all 3 providers side by side and displays a table of top-5 hits with embedding durations — useful for evaluating speed and result quality. Populate the 3 indices first by running the notebook once with each `PROVIDER_NAME` value.
 

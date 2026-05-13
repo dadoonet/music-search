@@ -4,17 +4,18 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-A Jupyter notebook demo for music/audio search using Elasticsearch vector search. The notebook supports **three interchangeable embedding providers** selected via the `PROVIDER_NAME` variable; each provider writes to its own Elasticsearch index (`music-jina`, `music-panns`, `music-gemini`). Documents are stored using a `dense_vector` field `audio-embedding` and queried with a `knn` query. Audio→audio search is supported by all three providers; text→audio search is supported by Jina and Gemini (PANNs raises `NotImplementedError`).
+A Jupyter notebook demo for music/audio search using Elasticsearch vector search. The notebook supports **four interchangeable embedding providers** selected via the `PROVIDER_NAME` variable; each provider writes to its own Elasticsearch index (`music-jina`, `music-jina-nano`, `music-panns`, `music-gemini`). Documents are stored using a `dense_vector` field `audio-embedding` and queried with a `knn` query. Audio→audio search is supported by all three providers; text→audio search is supported by Jina and Gemini (PANNs raises `NotImplementedError`).
 
 ## Embedding providers
 
 | `PROVIDER_NAME` | Model | Where inference runs | Modalities | Extra setup |
 |---|---|---|---|---|
 | `"jina"` (default) | `.jina-embeddings-v5-omni-small` | Inside Elasticsearch (managed inference) | audio + text | none |
+| `"jina-nano"` | `.jina-embeddings-v5-omni-nano` | Inside Elasticsearch (managed inference) | audio + text | none |
 | `"panns"` | PANNs (AudioSet checkpoint, 2048 dims, L2-normalized) | Local PyTorch (CPU by default) | audio only | downloads ~300 MB checkpoint on first run |
 | `"gemini"` | `gemini-embedding-2` (multimodal) | Google Cloud API | audio + text | `GOOGLE_API_KEY` in `.env` |
 
-The provider abstraction lives in the `EmbeddingProvider` ABC and three subclasses (`JinaProvider`, `PannsProvider`, `GeminiProvider`). Each provides `setup()`, `embed_audio(filepath) -> list[float]`, and `embed_text(text) -> list[float]`.
+The provider abstraction lives in the `EmbeddingProvider` ABC and four subclasses (`JinaProvider`, `JinaNanoProvider` — a thin subclass of `JinaProvider` swapping the inference id —, `PannsProvider`, `GeminiProvider`). Each provides `setup()`, `embed_audio(filepath) -> list[float]`, and `embed_text(text) -> list[float]`.
 
 ## Environment Setup
 
